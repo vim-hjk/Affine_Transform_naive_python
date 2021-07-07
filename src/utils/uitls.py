@@ -66,6 +66,6 @@ def plot_result(images, mode, output_path, is_save):
     fig.tight_layout()
 
     # save option
-    if is_save: plt.savefig(output_path, dpi=199)
+    if is_save: plt.savefig(output_path)
 
     plt.show()
