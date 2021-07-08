@@ -16,9 +16,11 @@ class AffineTransform2D(object):
         if img is None:            
             width, height = self.width, self.height
             img = self.img
+            cx, cy = self.cx, self.cy
         else:                        
             width, height = img.size
             img = np.array(img.getdata()).reshape(height, width, 3).tolist()
+            cx, cy = width // 2, height // 2
 
         output_img = [[[0 for _ in range(3)] for _ in range(width)] for _ in range(height)]
 
@@ -114,10 +116,11 @@ class AffineTransform2D(object):
                 for ch in range(3):
                     rx = round(cx + math.cos(theta) * (x - cx) - math.sin(theta) * (y - cy))
                     ry = round(cy + math.sin(theta) * (x - cx) + math.cos(theta) * (y - cy))
-                    try:
-                        output_img[ry][rx][ch] = img[y][x][ch]
-                    except:
-                        continue
+                    if 0 <= ry <= height - 1 and 0 <= rx <= width - 1:
+                        try:
+                            output_img[ry][rx][ch] = img[y][x][ch]
+                        except:
+                            continue
         return output_img
 
 
@@ -141,23 +144,24 @@ class AffineTransform2D(object):
                     origin_pos_x = cx + math.cos(-theta) * (x - cx) - math.sin(-theta) * (y - cy)
                     origin_pos_y = cy + math.sin(-theta) * (x - cx) + math.cos(-theta) * (y - cy)
 
-                    x_low = math.floor(origin_pos_x)
-                    x_up = math.ceil(origin_pos_x)
-                    y_low = math.floor(origin_pos_y)
-                    y_up = math.ceil(origin_pos_y)
-                    
-                    s = origin_pos_x - x_low
-                    t = origin_pos_y - y_low
+                    if 0 <= origin_pos_y <= height - 1 and 0 <= origin_pos_x <= width - 1:
+                        x_low = math.floor(origin_pos_x)
+                        x_up = math.ceil(origin_pos_x)
+                        y_low = math.floor(origin_pos_y)
+                        y_up = math.ceil(origin_pos_y)
+                        
+                        s = origin_pos_x - x_low
+                        t = origin_pos_y - y_low
 
-                    try:
-                        p1 = img[y_low][x_low][ch]
-                        p2 = img[y_low][x_up][ch]
-                        p3 = img[y_up][x_low][ch]
-                        p4 = img[y_up][x_up][ch]
+                        try:
+                            p1 = img[y_low][x_low][ch]
+                            p2 = img[y_low][x_up][ch]
+                            p3 = img[y_up][x_low][ch]
+                            p4 = img[y_up][x_up][ch]
 
-                        output_img[y][x][ch] = int((1 - s) * (1 - t) * p1 + (1 - s) * t * p3 + (1 - t) * s * p2 + s * t * p4)
-                    except:
-                        continue
+                            output_img[y][x][ch] = int((1 - s) * (1 - t) * p1 + (1 - s) * t * p3 + (1 - t) * s * p2 + s * t * p4)
+                        except:
+                            continue
         return output_img
 
 
@@ -185,12 +189,13 @@ class AffineTransform2D(object):
         for y in range(self.height):
             for x in range(self.width):
                 for ch in range(3):
-                    ax = round(cx + (a * (x - cx) + b * (y - cy) + c))
-                    ay = round(cy + (d * (x - cx) + e * (y - cy) + f))
-                    try:
-                        output_img[ax][ay][ch] = img[y][x][ch]
-                    except:
-                        continue
+                    ax = int(cx + (a * (x - cx) + b * (y - cy) + c))
+                    ay = int(cy + (d * (x - cx) + e * (y - cy) + f))
+                    if 0 <= ay <= height - 1 and 0 <= ax <= width - 1:
+                        try:
+                            output_img[ay][ax][ch] = img[y][x][ch]
+                        except:
+                            continue
 
         return output_img
 
@@ -223,23 +228,24 @@ class AffineTransform2D(object):
                 for ch in range(3):
                     origin_pos_x = cx + (a * (x - cx) + b * (y - cy) + c)
                     origin_pos_y = cy + (d * (x - cx) + e * (y - cy) + f)
-
-                    x_low = math.floor(origin_pos_x)
-                    x_up = math.ceil(origin_pos_x)
-                    y_low = math.floor(origin_pos_y)
-                    y_up = math.ceil(origin_pos_y)
                     
-                    s = origin_pos_x - x_low
-                    t = origin_pos_y - y_low
+                    if 0 <= origin_pos_y <= height - 1 and 0 <= origin_pos_x <= width - 1:
+                        x_low = math.floor(origin_pos_x)
+                        x_up = math.ceil(origin_pos_x)
+                        y_low = math.floor(origin_pos_y)
+                        y_up = math.ceil(origin_pos_y)
+                        
+                        s = origin_pos_x - x_low
+                        t = origin_pos_y - y_low
 
-                    try:
-                        p1 = img[y_low][x_low][ch]
-                        p2 = img[y_low][x_up][ch]
-                        p3 = img[y_up][x_low][ch]
-                        p4 = img[y_up][x_up][ch]
+                        try:
+                            p1 = img[y_low][x_low][ch]
+                            p2 = img[y_low][x_up][ch]
+                            p3 = img[y_up][x_low][ch]
+                            p4 = img[y_up][x_up][ch]
 
-                        output_img[y][x][ch] = int((1 - s) * (1 - t) * p1 + (1 - s) * t * p3 + (1 - t) * s * p2 + s * t * p4)                    
-                    except:
-                        continue
+                            output_img[y][x][ch] = int((1 - s) * (1 - t) * p1 + (1 - s) * t * p3 + (1 - t) * s * p2 + s * t * p4)                    
+                        except:
+                            continue
 
         return output_img
