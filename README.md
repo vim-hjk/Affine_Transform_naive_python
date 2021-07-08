@@ -54,9 +54,14 @@
 - Inverse Affine : `[[a, b, c], [d, e, f], [0, 0, 1]]`
 
 ### Bilinear Interpolation
+- ![bilinear_interpolation](./image/effect_of_bilinear_interpolation.png)
 - As we perform scale or rotation transformations, many points are computed as floating-point numbers, 
   resulting in the loss of pixel values.
 - It can be seen that a lot of regular noises is generated.
+- In such cases, the inverse operation of the target image can obtain the original position. 
+- However, the original image coordinates calculated after inverse operations are also floating point numbers.
+- In such cases, the method used to obtain approximate values is `bilinear interpolation`.
+- `f(i + u, j + v) = (1 - s) * (1 - t) * f(i, j) + (1 - s) * t * f(i + 1, j) + (1 - t) * s * f(i, j + 1) + s * t * f(i + 1, j + 1)`
 
 ## ⚙ Getting Start <a name = 'GettingStart'></a>
 ### Directory structure
@@ -115,4 +120,5 @@ base:
 - `python demo.py --config base`
 ---
 ## 👀 Results <a name = 'Result'></a>
-- ![]
+- ![base_result](./image/base_result.png)
+- ![base_result](./image/back_result.png)
