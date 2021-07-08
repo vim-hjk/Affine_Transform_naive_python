@@ -121,6 +121,8 @@ base:
 - `python demo.py --config back`
 ---
 ## 👀 Results <a name = 'Result'></a>
+### Original Image
+- ![base_result](./image/test.jpg)
 ### Standard Affine Transform
 - ![base_result](./image/base_result.png)
 ### Inverse Affine Transform with bilinear interpolation
