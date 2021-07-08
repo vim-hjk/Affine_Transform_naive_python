@@ -2,8 +2,8 @@
 📦 Toy Box] Image Affine Transform without NumPy, OpenCV
 ==== 
 - This repository implements image affine transformation using naive python.
+- The use of NumPy, OpenCV, and Pillow in this code is very limited, and is used only for reading and storing image.
 - It can be a good reference for you to study affine transform.
-- It is connected through the **wandb**. You can check the simple result in [here](https://wandb.ai/vim_hjk/fruit360-image-classification?workspace=user-vim_hjk).
 <br></br>
 ## 🏷 Table of content
 - [Affine Transform](#AffineTransform)<br>
@@ -120,5 +120,7 @@ base:
 - `python demo.py --config base`
 ---
 ## 👀 Results <a name = 'Result'></a>
+### Standard Affine Transform
 - ![base_result](./image/base_result.png)
+### Inverse Affine Transform with bilinear interpolation
 - ![back_result](./image/back_result.png)
