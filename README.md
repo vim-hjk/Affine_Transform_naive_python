@@ -121,4 +121,4 @@ base:
 ---
 ## 👀 Results <a name = 'Result'></a>
 - ![base_result](./image/base_result.png)
-- ![base_result](./image/back_result.png)
+- ![back_result](./image/back_result.png)
