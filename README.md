@@ -118,6 +118,7 @@ base:
 ```
 ### Demo
 - `python demo.py --config base`
+- `python demo.py --config back`
 ---
 ## 👀 Results <a name = 'Result'></a>
 ### Standard Affine Transform
