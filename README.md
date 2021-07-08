@@ -2,7 +2,7 @@
 📦 Toy Box] Image Affine Transform without NumPy, OpenCV
 ==== 
 - This repository implements image affine transformation using naive python.
-- The use of NumPy, OpenCV, and Pillow in this code is very limited, and is used only for reading and storing image.
+- The use of NumPy, OpenCV, and Pillow in this code is very limited, and is used only for reading and saving image.
 - It can be a good reference for you to study affine transform.
 <br></br>
 ## 🏷 Table of content
