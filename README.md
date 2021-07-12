@@ -1,4 +1,3 @@
-# Affine_Transform_naive_python
 📦 Toy Box] Image Affine Transform without NumPy, OpenCV
 ==== 
 - This repository implements image affine transformation using naive python.
