@@ -51,8 +51,9 @@ def plot_result(images, mode, output_path, is_save):
     fig = plt.figure(figsize=(25, 22))
 
     # set sub_title
-    if mode == 'back' : title = ["Original Image", "Translate", "Back Rotate", "Back Scaling", "Back Affine Transform"]
-    else: title = ["Original Image", "Translate", "Rotate", "Scaling", "Affine Transform"]
+    if mode == 'inverse' : title = ["Original Image", "Translate", "Inverse Rotate", "Inverse Scaling", "Inverse Affine Transform"]
+    elif mode == 'affine': title = ["Original Image", "Translate", "Rotate", "Scaling", "Affine Transform"]
+    else: title = ["Original Image", "Normalize", "Horizontal Flip", "Vertical Flip", "Shear"]
 
     # plot figure
     for a in range(5):
