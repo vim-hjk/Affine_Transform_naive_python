@@ -159,5 +159,5 @@ other:
 - ![base_result](./image/affine_result.png)
 ### Inverse Affine Transform with bilinear interpolation
 - ![inverse_result](./image/inverse_result.png)
-### Normalize, Flip and Shear Transform.
+### Normalize, Flip and Shear Transform
 - ![other_result](./image/other_result.png)
