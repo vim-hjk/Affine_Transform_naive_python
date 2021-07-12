@@ -28,10 +28,12 @@
 - Translate : `[[1, 0, tx], [0, 1, ty], [0, 0, 1]]`
 - Scaling : `[[sx, 0, 0], [0, sy, 0], [0, 0, 1]]`
 - Rotation : `[[cos(θ), -sin(θ), 0], [sin(θ), cos(θ), 0], [0, 0, 1]]`
-- shift center : `[[1, 0, -cx], [0, 1, -cy], [0, 0, 1]]`
-- coordinates : `[x, y, 1]`
+- Shear : `[[1, shx, 0], [shy, 1, 0], [0, 0, 1]]`
+- Shift Center : `[[1, 0, -cx], [0, 1, -cy], [0, 0, 1]]`
+- Coordinates : `[x, y, 1]`
 
 ### Standard Affine Transform Matrix
+- **Scaling → Rotate → Translate**
 - a : `sx * cos(θ)`
 - b : `sy * -sin(θ)`
 - c : `tx`
@@ -41,8 +43,8 @@
 - Affine : `[[a, b, c], [d, e, f], [0, 0, 1]]`
 
 ### Inverse Transformation Matrix
-- Back Scaling : `[[1/sx, 0, 0], [0, 1/sy, 0], [0, 0, 1]]`
-- Back Rotation : `[[cos(-θ), -sin(-θ), 0], [sin(-θ), cos(-θ), 0], [0, 0, 1]]`
+- Inverse Scaling : `[[1/sx, 0, 0], [0, 1/sy, 0], [0, 0, 1]]`
+- Inverse Rotation : `[[cos(-θ), -sin(-θ), 0], [sin(-θ), cos(-θ), 0], [0, 0, 1]]`
 
 ### Inverse Affine Transform Matrix
 - a : `cos(-θ) / sx`
@@ -61,7 +63,7 @@
 - In such cases, the inverse operation of the target image can obtain the original position. 
 - However, the original image coordinates calculated after inverse operations are also floating point numbers.
 - In such cases, the method used to obtain approximate values is `bilinear interpolation`.
-- `f(i + u, j + v) = (1 - s) * (1 - t) * f(i, j) + (1 - s) * t * f(i + 1, j) + (1 - t) * s * f(i, j + 1) + s * t * f(i + 1, j + 1)`
+- `f(x + u, y + v) = (1 - s) * (1 - t) * f(x, y) + (1 - s) * t * f(x + 1, y) + (1 - t) * s * f(x, y + 1) + s * t * f(x + 1, y + 1)`
 
 ## ⚙ Getting Start <a name = 'GettingStart'></a>
 ### Directory structure
@@ -76,10 +78,10 @@
 ### Config
 - You can set various experimental environments in `configs/config.py`
 ``` yaml
-back:
-  mode: 'back'                                # You can choose 'back' or 'base'. When 'back' mode is selected, scaling becomes bilinear interpolation.
+inverse:
+  mode: 'inverse'                                # You can choose 'inverse_affine' or 'base'. When 'inverse' mode is selected, scaling becomes bilinear interpolation.
   image_path: './image/test.jpg'              # Input image path
-  output_path: './output/output_back.png'     # Path to save result image
+  output_path: './output/output_inverse.png'     # Path to save result image
   is_save: True                               # Save option
   translate:                                  
     tx: 30                                    # x coordinates to translate
@@ -95,11 +97,14 @@ back:
     degree: 132
     sx: 1.3
     sy: 1.3
+  shear:        
+    shx: -0.5                                 # shift x
+    shy: 0                                    # shift y
 
-base:
-  mode: 'base'
+affine:
+  mode: 'affine'
   image_path: './image/test.jpg'
-  output_path: './output/output_base.png'
+  output_path: './output/output_affine.png'
   is_save: True  
   translate:
     tx: 30
@@ -115,15 +120,44 @@ base:
     degree: 132
     sx: 1.3
     sy: 1.3
+  shear:
+    shx: -0.5
+    shy: 0
+
+other:
+  mode: 'flip_shear'
+  image_path: './image/test.jpg'
+  output_path: './output/output_flip_shear.png'
+  is_save: True
+  translate:
+    tx: 30
+    ty: 30
+  rotate:
+    degree: 15
+  scaling:
+    sx: 2
+    sy: 2
+  affine:
+    tx: 30
+    ty: 30
+    degree: 132
+    sx: 1.3
+    sy: 1.3
+  shear:
+    shx: -0.5
+    shy: 0
 ```
 ### Demo
-- `python demo.py --config base`
-- `python demo.py --config back`
+- `python demo.py --config affine`
+- `python demo.py --config inverse`
+- `python demo.py --config other`
 ---
 ## 👀 Results <a name = 'Result'></a>
 ### Original Image
 - ![base_result](./image/test.jpg)
 ### Standard Affine Transform
-- ![base_result](./image/base_result.png)
+- ![base_result](./image/affine_result.png)
 ### Inverse Affine Transform with bilinear interpolation
-- ![back_result](./image/back_result.png)
+- ![inverse_result](./image/inverse_result.png)
+### Normalize, Flip and Shear Transform.
+- ![other_result](./image/other_result.png)
